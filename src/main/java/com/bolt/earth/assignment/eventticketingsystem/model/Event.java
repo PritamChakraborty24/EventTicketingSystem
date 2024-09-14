@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,7 +23,9 @@ public class Event {
     private String eventDate;
     private int totalTickets;
     private int ticketsAvailable;
+    private int ticketCost;
+
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<Ticket> tickets;
+    private List<Ticket> tickets;
 }

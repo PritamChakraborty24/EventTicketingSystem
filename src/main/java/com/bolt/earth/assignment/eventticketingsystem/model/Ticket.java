@@ -17,8 +17,6 @@ public class Ticket {
     @Column(name = "ticket_id")
     private Long ticketId;
 
-    private int ticketCost;
-
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
