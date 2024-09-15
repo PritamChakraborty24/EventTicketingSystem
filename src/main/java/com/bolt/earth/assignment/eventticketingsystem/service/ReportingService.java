@@ -50,6 +50,10 @@ public class ReportingService {
 
     public String getTotalTicketsSoldForAllEvents() {
         log.info("Calculating the total tickets sold for all events");
-        return "Total no. of tickets sold for all events is " + purchaseRepository.count();
+        long totalTicketsSold = purchaseRepository.count();
+        if(totalTicketsSold == 0)
+            return "No tickets are sold yet";
+        else
+            return "Total no. of tickets sold for all events is " + totalTicketsSold;
     }
 }
