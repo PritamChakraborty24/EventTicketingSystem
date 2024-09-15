@@ -13,7 +13,9 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 public class PurchaseService {
@@ -46,22 +48,27 @@ public class PurchaseService {
                 ticketRepository.save(ticket);
                 event.setTicketsAvailable(event.getTicketsAvailable() - 1);
 
-//                List<Ticket> ticketSet = event.getTickets();
-//
-//                if(ticketSet == null) {
-//                    ticketSet = new CopyOnWriteArrayList<>();
-//                }
-//
-//                ticketSet.add(ticket);
-//
-//                event.setTickets(ticketSet);
+                List<Ticket> ticketList = event.getTickets();
+
+                if(ticketList == null) {
+                    ticketList = new CopyOnWriteArrayList<>();
+                }
+
+                ticketList.add(ticket);
+
+                event.setTickets(ticketList);
 
                 eventRepository.save(event);
 
                 final Purchase purchase = Purchase.builder().ticket(ticket).customer(customer).build();
                 purchaseRepository.save(purchase);
 
-                customer.setPurchase(purchase);
+                List<Purchase> purchases = customer.getPurchase();
+                if(purchases == null) {
+                    purchases = new CopyOnWriteArrayList<>();
+                }
+                purchases.add(purchase);
+                customer.setPurchase(purchases);
                 customerRepository.save(customer);
 
                 return "Ticket purchased successfully.";

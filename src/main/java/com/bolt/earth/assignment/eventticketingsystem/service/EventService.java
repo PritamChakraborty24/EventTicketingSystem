@@ -24,4 +24,9 @@ public class EventService {
     public List<Event> findAllEventDetails() {
         return eventRepository.findAll();
     }
+
+    public String findAvailableTicketsForAnEvent(Long eventId) {
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> new ServiceException("No Such event found!"));
+        return "Total tickets available for " + event.getEventName() + " is  "+ event.getTicketsAvailable();
+    }
 }

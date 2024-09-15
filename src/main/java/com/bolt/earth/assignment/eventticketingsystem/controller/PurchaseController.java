@@ -1,12 +1,19 @@
 package com.bolt.earth.assignment.eventticketingsystem.controller;
 
-import com.bolt.earth.assignment.eventticketingsystem.model.Customer;
-import com.bolt.earth.assignment.eventticketingsystem.service.CustomerService;
+import com.bolt.earth.assignment.eventticketingsystem.exception.ErrorResponse;
 import com.bolt.earth.assignment.eventticketingsystem.service.PurchaseService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/purchases")
@@ -15,8 +22,15 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
+    @Operation(summary = "It purchases a ticket for an event based on event id and customer id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", content = { @Content(mediaType = "application/text",
+                    schema = @Schema(implementation = String.class)) }),
+            @ApiResponse(responseCode = "500", content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ErrorResponse.class))})
+    })
     @PutMapping("/purchaseTickets")
     public ResponseEntity<?> purchaseTickets(@RequestParam Long eventId, @RequestParam Long customerId) {
-        return ResponseEntity.status(HttpStatus.OK).body(purchaseService.purchaseTickets(eventId, customerId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(purchaseService.purchaseTickets(eventId, customerId));
     }
 }
