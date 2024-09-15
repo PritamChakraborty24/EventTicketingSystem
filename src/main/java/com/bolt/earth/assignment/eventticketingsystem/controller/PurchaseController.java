@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/purchases")
+@Log4j2
 public class PurchaseController {
 
     @Autowired
@@ -31,6 +33,7 @@ public class PurchaseController {
     })
     @PutMapping("/purchaseTickets")
     public ResponseEntity<?> purchaseTickets(@RequestParam Long eventId, @RequestParam Long customerId) {
+        log.info("Initiating the purchase of a ticket for event "+eventId+" and customer "+customerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(purchaseService.purchaseTickets(eventId, customerId));
     }
 }

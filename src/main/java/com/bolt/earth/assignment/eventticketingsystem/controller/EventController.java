@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/events")
+@Log4j2
 public class EventController {
 
     @Autowired
@@ -30,6 +32,7 @@ public class EventController {
     })
     @PostMapping("/createEvent")
     public ResponseEntity<?> createEvent(@RequestBody Event event) {
+        log.info("Adding an event to the system");
         return ResponseEntity.status(HttpStatus.CREATED).body(eventService.createEvent(event));
     }
 
@@ -42,6 +45,7 @@ public class EventController {
     })
     @GetMapping("/findEventDetailsById/{eventId}")
     public ResponseEntity<?> findEventDetailsById(@PathVariable Long eventId) {
+        log.info("Fetching event based on event id");
         return ResponseEntity.status(HttpStatus.OK).body(eventService.findEventDetailsById(eventId));
     }
 
@@ -54,6 +58,7 @@ public class EventController {
     })
     @GetMapping("/findAllEventDetails")
     public ResponseEntity<?> findAllEventDetails() {
+        log.info("Fetching all available events on the system");
         return ResponseEntity.status(HttpStatus.OK).body(eventService.findAllEventDetails());
     }
 
@@ -66,6 +71,7 @@ public class EventController {
     })
     @GetMapping("/findAvailableTicketsForAnEvent/{eventId}")
     public ResponseEntity<?> findAvailableTicketsForAnEvent(@PathVariable Long eventId) {
+        log.info("Fetching the available tickets for an event");
         return ResponseEntity.status(HttpStatus.OK).body(eventService.findAvailableTicketsForAnEvent(eventId));
     }
 }

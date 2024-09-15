@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reports")
+@Log4j2
 public class ReportingController {
 
     @Autowired
@@ -29,6 +31,7 @@ public class ReportingController {
     })
     @GetMapping("/ticketsSoldForAnEvent/{eventId}")
     public ResponseEntity<?> getTicketsSoldForAnEvent(@PathVariable Long eventId) {
+        log.info("Request for getting tickets for an event");
         return ResponseEntity.status(HttpStatus.OK).body(reportingService.getTicketsSoldForAnEvent(eventId));
     }
 
@@ -41,6 +44,7 @@ public class ReportingController {
     })
     @GetMapping("/revenueGeneratedForAnEvent/{eventId}")
     public ResponseEntity<?> getRevenueGeneratedForAnEvent(@PathVariable Long eventId) {
+        log.info("Request for getting revenue generated for an event");
         return ResponseEntity.status(HttpStatus.OK).body(reportingService.getRevenueGeneratedForAnEvent(eventId));
     }
 
@@ -53,6 +57,7 @@ public class ReportingController {
     })
     @GetMapping("/totalRevenueGenerated")
     public ResponseEntity<?> getRevenueGeneratedForAllEvents() {
+        log.info("Request for getting total revenue generated for all events");
         return ResponseEntity.status(HttpStatus.OK).body(reportingService.getRevenueGeneratedForAllEvents());
     }
 
@@ -65,6 +70,7 @@ public class ReportingController {
     })
     @GetMapping("/totalTicketsSold")
     public ResponseEntity<?> getTotalTicketsSoldForAllEvents() {
+        log.info("Request for getting total tickets sold for all events");
         return ResponseEntity.status(HttpStatus.OK).body(reportingService.getTotalTicketsSoldForAllEvents());
     }
 
